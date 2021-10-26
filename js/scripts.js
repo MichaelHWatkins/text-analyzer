@@ -34,6 +34,35 @@ function numberOfOccurrencesInText(word, text) {
   return wordCount;
 }
 
+function offensiveWords(text){
+  const wordArray = text.split(" ");
+  let newWordArray = [];
+  wordArray.forEach(function(word){
+    if(word != "zoinks" && word != "muppeteer" && word != "biffaroni" && word != "loopdaloop"){
+      newWordArray.push(word);
+    }
+  })
+  let newSentance = newWordArray.join(" ")
+  console.log(newSentance)
+  return "<p>" + newSentance + "</p>";
+}
+// function commonWords(text) {
+//   let wordArray = text.toLowerCase().split(" ");
+//   wordArray = wordArray.sort();
+//   let count = 0;
+//   let ansArray = [];
+//   let finalArray = [];
+//   wordArray.forEach(function(word){
+//     count++
+//     if(word != wordArray[count]){
+//       ans = numberOfOccurrencesInText(word, text)
+//       ansArray.push(ans)
+//       finalArray.push(word)
+//     }
+//   })
+//  console.log(ansArray, finalArray)
+// }
+
 // UI Logic
 
 function boldPassage(word, text) {
@@ -43,8 +72,9 @@ function boldPassage(word, text) {
   let htmlString = "<p>";
   let textArray = text.split(" ");
   textArray.forEach(function(element, index) {
-    if (element.toLowerCase().includes(word.toLowerCase())) {
-      htmlString = htmlString.concat("<b>" + element + "</b>");
+  if (element.toLowerCase().includes(word.toLowerCase())) {
+    let x = new RegExp(word + ".*");
+      htmlString = htmlString.concat(element.substring(0, element.indexOf(element.match(x))) + "<b>" + element.match(x) + "</b>");
     } else {
       htmlString = htmlString.concat(element);
     }
@@ -55,6 +85,8 @@ function boldPassage(word, text) {
   return htmlString + "</p>";
 }
 
+
+
 $(document).ready(function(){
   $("form#word-counter").submit(function(event){
     event.preventDefault();
@@ -62,8 +94,11 @@ $(document).ready(function(){
     const word = $("#word").val();
     const wordCount = wordCounter(passage);
     const occurrencesOfWord = numberOfOccurrencesInText(word, passage);
+    console.log(boldPassage(word, passage))
+    //commonWords(passage)
     $("#total-count").html(wordCount);
     $("#selected-count").html(occurrencesOfWord);
     $("#bolded-passage").html(boldPassage(word, passage));
+    $("#bad-words").html(offensiveWords(passage));
   });
 });

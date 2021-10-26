@@ -137,3 +137,11 @@ const word = "hello";
 const text = "hello there";
 boldPassage(word, text);
 Expected Output: "<p><b>hello</b> there</p>"
+
+Describe: commonWords()
+
+Test: "It should return hi, whoa, and yay as the three most common words."
+Code:
+const text = "Hi there hey yo hi hi yay yo whoa there whoa... yay!";
+commonWords(text);
+Expected Output: "Most common words: hi: 3 whoa: 2 yay: 2"
